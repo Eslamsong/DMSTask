@@ -1,0 +1,81 @@
+﻿@model Appointment
+@{
+    ViewBag.title = "Create";
+}
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <h3 class="text-info col-4">New Appointment</h3>
+    <a asp-action="Index" class="btn btn-primary col-2"><i class="bi bi-house-door-fill"></i>  Home</a>
+</div>
+
+<form method="post" class="list-group col-6 form-text mark" >
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <label for="PatientName" class="form-label">Patient Name :</label>
+    <input asp-for="PatientName" placeholder="Name" class="list-group-item form-control" />
+    <span asp-validation-for="PatientName" class="text-danger"></span>
+    <br />
+
+    <label for="PatientBirthDate" class="form-label">Patient Birth Date  :</label>
+    <input asp-for="PatientBirthDate" type="date" placeholder="Birth Date" class="list-group-item form-control" />
+    <span asp-validation-for="PatientBirthDate" class="text-danger"></span>
+    <br />
+
+    <label for="AppointmentDateTime" class="form-label">Appointment Date :</label>
+    <input asp-for="AppointmentDateTime" type="date" placeholder="Date" class="list-group-item form-control" />
+    <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
+    <br />
+
+    <label for="DoctorId" class="form-label">Select The Doctor Name:</label>
+    <select asp-for="DoctorId" asp-items="ViewBag.Doctors" oninput="ShowTimeSlots()" class="list-group-item form-select">
+        <option hidden>Select The Doctor Name</option>
+    </select>
+    <br />
+
+    <label for="timeSlot" class="form-label">Time Slot:</label>
+    <select id="timeSlot" name="TimeSlot" class="list-group-item form-select" >
+    </select>
+    <br />
+    <button type="submit" class="btn btn-outline-primary"><i class="bi bi-file-earmark-plus-fill"></i> Create New Appointment</button>
+     <br />
+
+</form>
+
+<script>
+   function ShowTimeSlots(id){
+        var id = document.getElementById("DoctorId").value;
+        console.log(id);
+
+        $.ajax({
+            type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            }
+            ,
+            data: { "id": id },
+            url: "https://localhost:7037/api/Helper/",
+
+            success: function (response) {
+
+                console.log(response);
+                let viewPagesName = document.getElementById("timeSlot");
+                let dataVewItemDetails = "";
+                let data = [...response];
+
+                dataVewItemDetails += data.map((e) =>
+                    ` <option value="${e}">${e}</option>`
+                ).join("")
+                console.log(dataVewItemDetails);
+
+                viewPagesName.innerHTML = dataVewItemDetails;
+
+            },
+
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+</script>
