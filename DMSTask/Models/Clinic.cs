@@ -10,5 +10,6 @@ namespace DMSTask.Models
 
         public ICollection<Doctor> Doctors { get; set; } =new HashSet<Doctor>();    
 
+
     }
 }

@@ -45,6 +45,7 @@
 <script>
    function ShowTimeSlots(id){
         var id = document.getElementById("DoctorId").value;
+        var SelectedDate =document.getElementById("AppointmentDateTime").value;
         console.log(id);
 
         $.ajax({
@@ -54,15 +55,17 @@
                     $('input:hidden[name="__RequestVerificationToken"]').val());
             }
             ,
-            data: { "id": id },
+            data: { "id": id, "SelectedDate": SelectedDate },
             url: "https://localhost:7037/api/Helper/",
 
             success: function (response) {
 
                 console.log(response);
+                console.log(typeof(response));
                 let viewPagesName = document.getElementById("timeSlot");
                 let dataVewItemDetails = "";
                 let data = [...response];
+           
 
                 dataVewItemDetails += data.map((e) =>
                     ` <option value="${e}">${e}</option>`

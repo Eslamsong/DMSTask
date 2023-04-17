@@ -42,7 +42,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @foreach(var item in doctors)
                                 {
-                                    <a class="dropdown-item" href="Doctor?id=@item.Id">@item.DoctorName</a>
+                                    <a class="dropdown-item" href="~/Doctor?id=@item.Id">@item.DoctorName</a>
 
                                 }
                                 
@@ -76,4 +76,4 @@
     @await RenderSectionAsync("Scripts", required: false)
     @await Component.InvokeAsync("NToastNotify")
 </body>
-</html>
+</html >

@@ -16,8 +16,9 @@ namespace DMSTask.Controllers
             this.clinicDb = clinicDb;
         }
         [HttpGet]
-        public IActionResult GetTimeSlots(int id )
+        public IActionResult GetTimeSlots(int id ,string SelectedDate)
         {
+            var ConvertedDate =DateTime.Parse(SelectedDate);
             var Doctor = clinicDb.Doctors.Where(i => i.Id == id).FirstOrDefault();
 
             int strTime = Doctor.From;
@@ -26,11 +27,20 @@ namespace DMSTask.Controllers
             var endTime = new TimeSpan(enTime, 0, 0); 
             var timeSlots = new List<TimeSpan>();
 
+            var ReserevedAppointments = clinicDb.Appointments.Where(i => i.DoctorId == id && i.AppointmentDateTime.Date == ConvertedDate.Date).ToList();
+
             while (startTime < endTime)
             {
                 timeSlots.Add(startTime);
                 startTime = startTime.Add(new TimeSpan(0, 30, 0)); 
+
             }
+
+            foreach (var item in ReserevedAppointments)
+            {
+                timeSlots.Remove(item.AppointmentDateTime.TimeOfDay);
+            }
+
             return new JsonResult(timeSlots);
         }
     }

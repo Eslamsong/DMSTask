@@ -64,12 +64,11 @@ namespace DMSTask.Controllers
             {
                 toastNotification.AddInfoToastMessage("Please Choose another Time, This Appointment is Already reserved ");
                 return Redirect("create");
-
-
             }
 
             var NewDate = appointment.AppointmentDateTime.Add(TimeSlot);
             appointment.AppointmentDateTime = NewDate;
+
 
             clinicDb.Appointments.Add(appointment);
             clinicDb.SaveChanges();

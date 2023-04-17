@@ -11,7 +11,7 @@ namespace DMSTask.Models
         public string DoctorName { get; set; } = null!;
 
         public string DayOff { get; set; } = "Friday";
-
+        
         public int From { get; set; } 
         public int To { get; set; }
 
