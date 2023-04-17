@@ -23,6 +23,7 @@ namespace DMSTask.Controllers
 
             int strTime = Doctor.From;
             int enTime = Doctor.To;
+
             var startTime = new TimeSpan(strTime, 0, 0); 
             var endTime = new TimeSpan(enTime, 0, 0); 
             var timeSlots = new List<TimeSpan>();
